@@ -1,0 +1,33 @@
+# OS
+Thumbs.db
+.DS_Store
+
+# Zips of earlier downloads
+*.zip
+
+# Node / relay
+node_modules/
+.wrangler/
+.dev.vars
+.env
+npm-debug.log*
+
+# Android
+.gradle/
+build/
+local.properties
+*.iml
+.idea/
+captures/
+.externalNativeBuild/
+.cxx/
+*.apk
+*.aab
+*.jks
+*.keystore
+keystore.properties
+
+# Editors
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json

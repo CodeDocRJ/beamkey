@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">KeyRelay</string>
+    <!-- Your deployed relay. Change here, or at runtime in Settings. -->
+    <string name="default_server_url">https://room-relay.YOUR-SUBDOMAIN.workers.dev</string>
+</resources>

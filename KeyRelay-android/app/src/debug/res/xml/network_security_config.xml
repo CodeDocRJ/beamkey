@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- DEBUG ONLY: lets you test against `npm run dev` on your PC over Wi-Fi (http://192.168.x.x:8787). -->
+<network-security-config>
+    <base-config cleartextTrafficPermitted="true" />
+</network-security-config>
