@@ -1,16 +1,18 @@
-# KeyRelay (Android, Java + XML)
+# Beamkey (Android, Java + XML)
 
 Phone app for the password relay. UI follows the Stitch design (Passwords, Pair Laptop, Settings, Add Password,
-Laptop Connection Request). Talks to the relay in `room-relay` (Cloudflare Worker) using the protocol in its `docs/API.md`.
+Laptop Connection Request). Talks to the relay in `room-relay` (Cloudflare Worker, live at https://getbeamkey.com) using the protocol in its `docs/API.md`.
 
 ## Open and run
 1. Android Studio (Koala or newer) -> Open -> select this folder. Let Gradle sync (needs internet once).
 2. Phone needs Android 11+ (API 30) and an enrolled fingerprint (or class-3 face unlock).
-3. Server address:
-   - **Debug build** (cleartext allowed): `app/src/debug/res/values/strings.xml` -> `http://10.0.2.2:8787` for the emulator.
-     On a real phone open Settings in the app and type `http://<your-PC-LAN-IP>:8787` while `npm run dev` runs.
-   - **Release build** (HTTPS only): set `default_server_url` in `app/src/main/res/values/strings.xml`,
-     or change it in the app under Settings.
+3. Server address (default is **https://getbeamkey.com** in both debug and release):
+   - Defined in `app/src/main/res/values/strings.xml` (release) and `app/src/debug/res/values/strings.xml` (debug), key `default_server_url`.
+   - To test against `npm run dev` on your PC (debug build only, http allowed): in the app open Settings and type
+     `http://10.0.2.2:8787` on the emulator, or `http://<your-PC-LAN-IP>:8787` on a real phone. Then press Save.
+     Do not leave a local address saved: set it back to `https://getbeamkey.com`.
+   - `10.0.2.2` only exists inside the Android emulator. On a real phone it never connects (the app would sit on "Connecting").
+   - The store-facing application ID is `com.beamkey.app` (app/build.gradle). The Kotlin/Java package stays `com.keyrelay.app`.
 4. First run: tap Add, save a password (fingerprint prompt appears), open **Pair Laptop**, enter the shown code on the website,
    compare the check code, tap Approve, then tap **Send to Laptop**. On the laptop click once in the relay window, then Ctrl+V.
 

@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:fontFamily="@font/jetbrains_mono"
-            android:hint="https://your-relay.workers.dev"
+            android:hint="https://getbeamkey.com"
             android:imeOptions="actionDone"
             android:inputType="textUri"
             android:textSize="13sp" />
@@ -108,6 +108,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:gravity="center"
-            android:text="KeyRelay" />
+            android:text="Beamkey" />
     </LinearLayout>
 </ScrollView>

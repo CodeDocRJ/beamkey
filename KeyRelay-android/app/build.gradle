@@ -7,7 +7,7 @@ android {
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.keyrelay.app"
+        applicationId "com.beamkey.app"   // store-facing ID; code package (namespace) stays com.keyrelay.app
         minSdk 30          // Android 11+: framework BiometricPrompt + per-use biometric keys, no AndroidX needed
         targetSdk 34
         versionCode 1

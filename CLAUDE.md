@@ -1,12 +1,13 @@
-# KeyRelay workspace
+# Beamkey workspace (getbeamkey.com)
 
 Send long work passwords from an Android phone to a locked-down Windows laptop without typing them.
 Flow: phone app (biometric) -> relay server (end-to-end encrypted) -> website open on the laptop -> text lands on the Windows clipboard.
 
 ## Layout
-- `room-relay/`    Cloudflare Worker + Durable Objects + static website (Node project). Edited in VS Code.
-- `KeyRelay-android/`  Android app, Java + XML, package `com.keyrelay.app`. Edited in Android Studio.
+- `room-relay/`    Cloudflare Worker + Durable Objects + static website (Node project). Edited in VS Code. Live at https://getbeamkey.com. Mirrored to the GitHub repo `beamkey-web`, which Cloudflare deploys from.
+- `KeyRelay-android/`  Android app (product name Beamkey), Java + XML. Code package `com.keyrelay.app`, store applicationId `com.beamkey.app`. Edited in Android Studio.
 - Claude Code may be run from this root and edit both. Keep changes to each project inside its own folder.
+- Git: this root is the backup repo. `room-relay/` is also pushed to the deploy repo with `.\publish.ps1` (git subtree). Never commit directly to the deploy repo.
 
 ## Hard rules
 - `room-relay/public/proto.js` (browser/Node crypto) and `KeyRelay-android/app/src/main/java/com/keyrelay/app/crypto/ProtocolCrypto.java` MUST stay byte-compatible. Any change to one needs the matching change in the other, then re-run `npm run vectors` and compare with `room-relay/docs/test-vectors.json`.
@@ -20,6 +21,12 @@ Flow: phone app (biometric) -> relay server (end-to-end encrypted) -> website op
 - Browser sends join_request; phone shows an 8-char check code (SAS) and Approve/Deny. 3 denials lock the room.
 - Crypto: ephemeral ECDH P-256 (65-byte uncompressed keys, base64url), HKDF-SHA256 (salt = SHA256(phonePub||browserPub), info "rcvpass-v1 aes-gcm"), AES-256-GCM, AAD = code + "|" + id. Plaintext padded to 128 bytes: [len_hi][len_lo][password][zeros], max 126 bytes.
 - Rate limits: 10 room creates/hour/IP, 20 browser joins/10 min/IP, 20 sends/min/room.
+
+## Hosting facts
+- Domain registered at Hostinger; DNS and hosting are on Cloudflare (nameservers changed). No Hostinger hosting plan is used.
+- Worker name in `room-relay/wrangler.toml` is `room-relay` and must match the Worker in Cloudflare. Custom domains (apex + www) are declared under `routes` there.
+- Android default server URL: `https://getbeamkey.com` in `app/src/main/res/values/strings.xml` and `app/src/debug/res/values/strings.xml`. `10.0.2.2` only works in the emulator.
+- The browser WebSocket check in `room-relay/src/index.js` requires Origin == the site's own origin. CSP in `public/_headers` lists the wss hosts.
 
 ## Commands
 Relay (run from `room-relay/`, Node 20+):
@@ -37,7 +44,6 @@ Android (Android Studio, open `KeyRelay-android/`): Run the `app` debug config.
 - Release builds require https; set the real URL in `res/values/strings.xml` (`default_server_url`).
 
 ## Status / known gaps
-- Android app was compile-checked but not yet run on a device or emulator.
-- Website not yet tested in a real browser; relay not yet deployed to Cloudflare.
-- Planned: custom domain, neutral product name, hybrid/iOS app later.
-- Test the deployed site on workers.dev from the work laptop before buying a domain (company filters may block it).
+- Relay passes 14 local end-to-end checks; Java and JS crypto match on shared test vectors; Android sources compile against the SDK.
+- Not yet verified: app on a real device, website in every browser, the live Cloudflare custom domain, and the site on the work laptop network (company filters may block new domains).
+- Planned: Turnstile / Cloudflare rate-limit rules before public launch, iOS/hybrid app later.

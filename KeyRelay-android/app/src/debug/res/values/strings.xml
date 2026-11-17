@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- 10.0.2.2 = your PC from the Android emulator. On a real phone use http://<PC-LAN-IP>:8787 in Settings. -->
-    <string name="default_server_url">http://10.0.0.64:8787</string>
+    <!-- Debug builds use the live relay too, so a real phone works out of the box.
+         To test against `npm run dev` on your PC: emulator -> http://10.0.2.2:8787,
+         real phone -> http://<PC-LAN-IP>:8787. Enter it in the app's Settings tab (debug builds allow http). -->
+    <string name="default_server_url">https://getbeamkey.com</string>
 </resources>
